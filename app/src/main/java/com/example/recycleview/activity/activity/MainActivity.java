@@ -1,12 +1,18 @@
 package com.example.recycleview.activity.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.recycleview.R;
+import com.example.recycleview.activity.RecyclerItemClickListener;
 import com.example.recycleview.activity.adapter.Adapter;
 import com.example.recycleview.activity.model.Filme;
 
@@ -37,7 +43,34 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true); //otimizador para recyclerView(colocando um tamanho fixo)
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerView.setAdapter( adapter );
+
+        //evento click
+        recyclerView.addOnItemTouchListener(
+            new RecyclerItemClickListener(
+                    getApplicationContext(),
+                    recyclerView,
+                    new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Toast.makeText(MainActivity.this, "Clique curto", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onLongItemClick(View view, int position) {
+                            Toast.makeText(MainActivity.this, "Clique longo", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        }
+                    }
+            )
+        );
+
+
     }
 
 
